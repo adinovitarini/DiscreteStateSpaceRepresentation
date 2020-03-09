@@ -1,0 +1,13 @@
+clear all
+clc
+num=input('Masukan polinomial numerator : ');
+den=input('Masukan polinomial denumerator : ');
+[l,m]=size(den);
+[A,B,C,D]=tf2ss(num,den);
+p=zeros(1,m-1);
+k=acker(A,B,p);
+fg=A-(B*k)
+x=ones(m-1,1)*100
+for i=1:m-1
+    fg=fg^i
+end
