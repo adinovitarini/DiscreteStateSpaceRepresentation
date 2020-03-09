@@ -1,0 +1,41 @@
+clear all
+clc
+%from TF(z) to state space discrete
+num=input('Masukan polinomial numerator : ');
+den=input('Masukan polinomial denumerator : ');
+[m,n]=size(den);
+[p,q]=size(num);
+if q~=n
+    D=0;
+end
+if q==n 
+    D=num(1);
+end 
+%Initial Condition 
+x=zeros(n-1,n-1);
+A=x;
+B=zeros(n-1,1);
+C=zeros(1,n-1);
+num_0=D;
+for i=1:n-1
+    for j=1:n-1       
+        if i==1                    
+            A(i,j)=-den(j+1);
+            B(i,1)=1;
+            C(i,j)=num(j)-(A(i,j)*num_0);
+        end
+        if i~=1 && i-j==1
+            A(i,j)=1;
+        end
+    end
+end
+disp('Controllable Canonical Form')
+A
+B
+C
+D
+disp('Observable Canonical Form')
+Ao=A'
+Bo=C'
+Co=B'
+D
