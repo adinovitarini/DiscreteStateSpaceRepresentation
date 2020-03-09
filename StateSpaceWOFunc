@@ -1,8 +1,8 @@
 clear all
 clc
 %from TF(z) to state space discrete
-num=input('Masukan polinomial numerator : ');
-den=input('Masukan polinomial denumerator : ');
+num=input('Input polynomial of numerator : ');
+den=input('Input polynomial of denumerator : ');
 [m,n]=size(den);
 [p,q]=size(num);
 if q~=n
@@ -29,13 +29,46 @@ for i=1:n-1
         end
     end
 end
+disp('---------------------------------------')
 disp('Controllable Canonical Form')
 A
 B
 C
 D
+%Check controllability matrix 
+M=ones(n-1,n-1);
+for i=1:n-1
+    if i==1
+        M(:,i)=B;
+    end
+    if i~=1
+    M(:,i)=A^(i-1)*B;
+    end
+end
+M
+if det(M)==0
+    disp('This system is uncontrollable')
+else 
+    disp('This system is controllable')
+end
+disp('---------------------------------------')
 disp('Observable Canonical Form')
 Ao=A'
 Bo=C'
 Co=B'
 D
+O=ones(n-1,n-1);
+for i=1:n-1
+    if i==1
+        O(i,:)=C;
+    end
+    if i~=1
+    O(i,:)=C*A^(i-1);
+    end
+end
+O
+if det(O)==0
+    disp('This system is unobservable')
+else 
+    disp('This system is observable')
+end
